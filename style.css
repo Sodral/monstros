@@ -1,27 +1,32 @@
 body {
     font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f9f9f9;
     text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
 }
 
-#filter {
-    margin: 20px auto;
+#search-container {
+    margin-bottom: 20px;
 }
 
-#results {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
 }
-.card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    background: white;
-    border-radius: 5px;
-    width: 200px;
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-    cursor: pointer;
+
+thead tr {
+    background-color: #333;
+    color: #fff;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
