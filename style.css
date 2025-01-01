@@ -67,16 +67,20 @@ h1 {
     margin: 0 auto;
 }
 
+.monster-table th,
+.monster-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #555;
+}
+
 .monster-table th {
     background-color: #4c4c4c;
-    text-align: left;
-    padding: 10px;
+    width: 30%; /* Define largura consistente para chave */
     color: #e0e0e0;
 }
 
 .monster-table td {
-    padding: 10px;
-    text-align: left;
-    border-top: 1px solid #555;
+    width: 70%; /* Define largura consistente para valor */
     color: #f0f0f0;
 }
