@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         displayResults(filtered);
     }
 
-function displayResults(monsters) {
+        function displayResults(monsters) {
     const resultsContainer = document.getElementById("results-container");
     if (!resultsContainer) {
         console.error("Results container not found.");
@@ -79,22 +79,16 @@ function displayResults(monsters) {
             const table = document.createElement("table");
             table.className = "monster-table";
 
-            // Aqui, garantimos que 'Challenge Rating' esteja após 'Subtype'
-            const keys = Object.keys(monster); // Pega todas as chaves
+            // Criando um novo array de chaves
+            let keys = Object.keys(monster); 
 
-            // Remove o 'Challenge Rating' da lista de chaves para inseri-lo depois do 'Subtype'
-            const crIndex = keys.indexOf("Challenge Rating");
-            if (crIndex > -1) {
-                keys.splice(crIndex, 1); // Remove 'Challenge Rating' da lista
-            }
-
-            // Adiciona 'Challenge Rating' logo após 'Subtype'
+            // Checa se "Subtype" existe e insere o "Challenge Rating" logo depois
             const subtypeIndex = keys.indexOf("Subtype");
-            if (subtypeIndex > -1) {
-                keys.splice(subtypeIndex + 1, 0, "Challenge Rating"); // Insere 'Challenge Rating' após 'Subtype'
+            if (subtypeIndex !== -1 && keys.indexOf("Challenge Rating") === -1) {
+                keys.splice(subtypeIndex + 1, 0, "Challenge Rating"); // Inserir "Challenge Rating" logo após "Subtype"
             }
 
-            // Agora, vamos iterar sobre as chaves na nova ordem
+            // Agora, vamos exibir as chaves na ordem correta
             keys.forEach(key => {
                 const row = document.createElement("tr");
                 const cellKey = document.createElement("th");
@@ -107,20 +101,6 @@ function displayResults(monsters) {
                 row.appendChild(cellValue);
                 table.appendChild(row);
             });
-
-            // Agora adiciona o 'Challenge Rating' no final da tabela
-            if (monster["Challenge Rating"]) {
-                const row = document.createElement("tr");
-                const cellKey = document.createElement("th");
-                cellKey.textContent = "Challenge Rating";
-                cellKey.style.width = "30%"; // Define largura consistente
-                const cellValue = document.createElement("td");
-                cellValue.textContent = monster["Challenge Rating"] || "N/A";
-                cellValue.style.width = "70%"; // Define largura consistente
-                row.appendChild(cellKey);
-                row.appendChild(cellValue);
-                table.appendChild(row);
-            }
 
             resultsContainer.appendChild(table);
         });
