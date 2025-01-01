@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const csvFilePath = "https://sodral.github.io/monstros/monster_data.csv"; // Nome do arquivo
+    const csvFilePath = "monster_data.csv"; // Nome do arquivo
     let monstersData = [];
 
     function loadCSV() {
@@ -80,14 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 table.className = "monster-table";
 
                 Object.entries(monster).forEach(([key, value]) => {
-                    const row = document.createElement("tr");
-                    const cellKey = document.createElement("th");
-                    cellKey.textContent = key;
-                    const cellValue = document.createElement("td");
-                    cellValue.textContent = value || "N/A";
-                    row.appendChild(cellKey);
-                    row.appendChild(cellValue);
-                    table.appendChild(row);
+                    if (key !== "Stat_Block") { // Exclui a coluna Stat_Block
+                        const row = document.createElement("tr");
+                        const cellKey = document.createElement("th");
+                        cellKey.textContent = key;
+                        const cellValue = document.createElement("td");
+                        cellValue.textContent = value || "N/A";
+                        row.appendChild(cellKey);
+                        row.appendChild(cellValue);
+                        table.appendChild(row);
+                    }
                 });
 
                 resultsContainer.appendChild(table);
@@ -101,7 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("search-name").value = "";
         document.getElementById("filter-type").value = "";
         document.getElementById("filter-cr").value = "";
-        displayResults([]); // Limpa os resultados
+        const resultsContainer = document.getElementById("results-container");
+        if (resultsContainer) {
+            resultsContainer.innerHTML = ""; // Limpa os resultados
+        }
     }
 
     document.getElementById("search-button").addEventListener("click", filterMonsters);
