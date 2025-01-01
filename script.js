@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
                 populateFilters();
-                displayResults(monstersData); // Exibe todos os monstros inicialmente
+                displayResults([]); // Exibe a página sem resultados ao iniciar
             }
         });
     }
@@ -141,6 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Evento para fechar o modal
     document.querySelector(".close-button").addEventListener("click", closeModal);
+
+    // Fechar o modal ao clicar fora dele
+    const modal = document.getElementById("monster-modal");
+    modal.addEventListener("click", (event) => {
+        // Fecha o modal se o clique for fora da área do modal
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
 
     // Função de limpar filtros
     function clearFilters() {
