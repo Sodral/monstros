@@ -1,5 +1,5 @@
 // Carrega o CSV
-const csvFilePath = "monsters_data.csv"; // Substitua pelo nome correto do arquivo CSV.
+const csvFilePath = "https://sodral.github.io/monstros/monsters_data.csv"; // Substitua pelo nome correto do arquivo CSV.
 
 let monstersData = [];
 
