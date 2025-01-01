@@ -66,40 +66,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function displayResults(monsters) {
-        const resultsContainer = document.getElementById("results-container");
-        if (!resultsContainer) {
-            console.error("Results container not found.");
-            return;
-        }
-
-        resultsContainer.innerHTML = "";
-
-        if (monsters.length > 0) {
-            monsters.forEach(monster => {
-                const table = document.createElement("table");
-                table.className = "monster-table";
-
-                Object.entries(monster).forEach(([key, value]) => {
-                    if (key !== "Stat_Block") { // Exclui a coluna Stat_Block
-                        const row = document.createElement("tr");
-                        const cellKey = document.createElement("th");
-                        cellKey.textContent = key;
-                        cellKey.style.width = "30%"; // Define largura consistente
-                        const cellValue = document.createElement("td");
-                        cellValue.textContent = value || "N/A";
-                        cellValue.style.width = "70%"; // Define largura consistente
-                        row.appendChild(cellKey);
-                        row.appendChild(cellValue);
-                        table.appendChild(row);
-                    }
-                });
-
-                resultsContainer.appendChild(table);
-            });
-        } else {
-            resultsContainer.textContent = "No results found.";
-        }
+    const resultsContainer = document.getElementById("results-container");
+    if (!resultsContainer) {
+        console.error("Results container not found.");
+        return;
     }
+
+    resultsContainer.innerHTML = "";
+
+    if (monsters.length > 0) {
+        monsters.forEach(monster => {
+            const table = document.createElement("table");
+            table.className = "monster-table";
+
+            // First, define the order of keys (move Challenge Rating after Subtype)
+            const orderedKeys = ["Name", "Type", "Subtype", "Challenge Rating", "Other Field1", "Other Field2"]; // Adjust as needed
+            
+            orderedKeys.forEach(key => {
+                if (monster[key]) {
+                    const row = document.createElement("tr");
+                    const cellKey = document.createElement("th");
+                    cellKey.textContent = key;
+                    cellKey.style.width = "30%"; // Define consistent width
+                    const cellValue = document.createElement("td");
+                    cellValue.textContent = monster[key] || "N/A";
+                    cellValue.style.width = "70%"; // Define consistent width
+                    row.appendChild(cellKey);
+                    row.appendChild(cellValue);
+                    table.appendChild(row);
+                }
+            });
+
+            resultsContainer.appendChild(table);
+        });
+    } else {
+        resultsContainer.textContent = "No results found.";
+    }
+}
+
 
     function clearFilters() {
         document.getElementById("search-name").value = "";
