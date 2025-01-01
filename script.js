@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
                 populateFilters();
-                displayResults([]); // Exibe a página sem resultados ao iniciar
+                displayResults([]); // Exibe a página sem resultados ao iniciar (sem monstros carregados inicialmente)
             }
         });
     }
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        resultsContainer.innerHTML = "";
+        resultsContainer.innerHTML = ""; // Limpa os resultados antes de exibir os novos
 
         if (monsters.length > 0) {
             monsters.forEach(monster => {
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Fechar o modal ao clicar fora dele
     const modal = document.getElementById("monster-modal");
     modal.addEventListener("click", (event) => {
-        // Fecha o modal se o clique for fora da área do modal
+        // Fecha o modal se o clique for fora da área do conteúdo
         if (event.target === modal) {
             closeModal();
         }
