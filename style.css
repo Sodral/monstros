@@ -71,6 +71,7 @@ h1 {
     transition: transform 0.3s ease;
     width: 100%;
     max-width: 250px; /* Limita a largura máxima do card */
+    box-sizing: border-box;
 }
 
 .monster-card:hover {
@@ -141,10 +142,17 @@ h1 {
     .modal-content {
         width: 90%;
         padding: 10px;
+        max-height: 90%; /* Para se ajustar melhor em telas pequenas */
     }
 
     .monster-card {
         width: 100%;
         max-width: 100%; /* Os cards ocuparão toda a largura da tela */
+    }
+
+    #search-container input,
+    #search-container select,
+    #search-container button {
+        min-width: 120px; /* Ajuste no tamanho dos elementos de input no celular */
     }
 }
