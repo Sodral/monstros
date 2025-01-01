@@ -1,6 +1,5 @@
-// Monster Database Code (Updated for DOMContentLoaded and Minimalist Design)
 document.addEventListener("DOMContentLoaded", () => {
-    const csvFilePath = "https://raw.githubusercontent.com/Sodral/monstros/main/monster_data.csv";
+    const csvFilePath = "https://sodral.github.io/monstros/monster_data.csv"; // Nome do arquivo
     let monstersData = [];
 
     function loadCSV() {
@@ -9,8 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
             header: true,
             skipEmptyLines: true, // Ignora linhas completamente vazias
             complete: function (results) {
-                // Remove colunas e linhas completamente em branco
+                // Remove linhas com valores inconsistentes e limpa espaços extras
                 monstersData = results.data.filter(row => row.Name && row.Name.trim() !== "");
+                monstersData.forEach(monster => {
+                    if (monster["Challenge Rating"]) {
+                        monster["Challenge Rating"] = monster["Challenge Rating"].trim();
+                    }
+                });
                 populateFilters();
             }
         });
@@ -22,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         monstersData.forEach(monster => {
             if (monster.Type) typeSet.add(monster.Type.trim());
-            if (monster["Challenge Rating"]) crSet.add(monster["Challenge Rating"].trim());
+            if (monster["Challenge Rating"]) crSet.add(monster["Challenge Rating"]);
         });
 
         const typeFilter = document.getElementById("filter-type");
@@ -93,7 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    document.getElementById("search-button")?.addEventListener("click", filterMonsters);
+    function clearFilters() {
+        document.getElementById("search-name").value = "";
+        document.getElementById("filter-type").value = "";
+        document.getElementById("filter-cr").value = "";
+        displayResults([]); // Limpa os resultados
+    }
+
+    document.getElementById("search-button").addEventListener("click", filterMonsters);
+    document.getElementById("clear-button").addEventListener("click", clearFilters);
 
     loadCSV();
 });
