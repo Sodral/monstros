@@ -33,14 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const crFilter = document.getElementById("filter-cr");
 
         if (typeFilter && crFilter) {
-            [...typeSet].sort().forEach(type => {
+            [...typeSet].sort((a, b) => a.localeCompare(b)).forEach(type => {
                 const option = document.createElement("option");
                 option.value = type;
                 option.textContent = type;
                 typeFilter.appendChild(option);
             });
 
-            [...crSet].sort().forEach(cr => {
+            [...crSet].sort((a, b) => a.localeCompare(b)).forEach(cr => {
                 const option = document.createElement("option");
                 option.value = cr;
                 option.textContent = cr;
@@ -84,8 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         const row = document.createElement("tr");
                         const cellKey = document.createElement("th");
                         cellKey.textContent = key;
+                        cellKey.style.width = "30%"; // Define largura consistente
                         const cellValue = document.createElement("td");
                         cellValue.textContent = value || "N/A";
+                        cellValue.style.width = "70%"; // Define largura consistente
                         row.appendChild(cellKey);
                         row.appendChild(cellValue);
                         table.appendChild(row);
