@@ -70,7 +70,7 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
     width: 100%;
-    max-width: 250px; /* Limita a largura máxima do card */
+    max-width: 250px;
     box-sizing: border-box;
 }
 
@@ -106,11 +106,12 @@ h1 {
     padding: 20px;
     border-radius: 8px;
     width: 80%;
-    max-width: 900px;
-    max-height: 80%;
+    max-width: 800px; /* Limita a largura do modal */
+    max-height: 80vh; /* Limita a altura do modal em 80% da altura da tela */
     color: #f0f0f0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-    overflow-y: auto; /* Permite rolar se o conteúdo for muito longo */
+    overflow-y: auto; /* Permite rolagem vertical se o conteúdo for grande */
+    box-sizing: border-box;
 }
 
 .modal-content table {
@@ -141,8 +142,9 @@ h1 {
 @media (max-width: 768px) {
     .modal-content {
         width: 90%;
+        max-width: 100%; /* Modal ocupa 90% da largura da tela em dispositivos móveis */
+        max-height: 80vh; /* Limita a altura do modal para 80% da altura da tela */
         padding: 10px;
-        max-height: 90%; /* Para se ajustar melhor em telas pequenas */
     }
 
     .monster-card {
