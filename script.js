@@ -1,6 +1,6 @@
 // Monster Database Code (Updated for DOMContentLoaded and Minimalist Design)
 document.addEventListener("DOMContentLoaded", () => {
-    const csvFilePath = "https://raw.githubusercontent.com/Sodral/monstros/main/monsters_data.csv";
+    const csvFilePath = "https://raw.githubusercontent.com/Sodral/monstros/main/monster_data.csv";
     let monstersData = [];
 
     function loadCSV() {
