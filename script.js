@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         displayResults(filtered);
     }
 
-    function displayResults(monsters) {
+function displayResults(monsters) {
     const resultsContainer = document.getElementById("results-container");
     if (!resultsContainer) {
         console.error("Results container not found.");
@@ -79,23 +79,48 @@ document.addEventListener("DOMContentLoaded", () => {
             const table = document.createElement("table");
             table.className = "monster-table";
 
-            // First, define the order of keys (move Challenge Rating after Subtype)
-            const orderedKeys = ["Name", "Type", "Subtype", "Challenge Rating", "Other Field1", "Other Field2"]; // Adjust as needed
-            
-            orderedKeys.forEach(key => {
-                if (monster[key]) {
-                    const row = document.createElement("tr");
-                    const cellKey = document.createElement("th");
-                    cellKey.textContent = key;
-                    cellKey.style.width = "30%"; // Define consistent width
-                    const cellValue = document.createElement("td");
-                    cellValue.textContent = monster[key] || "N/A";
-                    cellValue.style.width = "70%"; // Define consistent width
-                    row.appendChild(cellKey);
-                    row.appendChild(cellValue);
-                    table.appendChild(row);
-                }
+            // Aqui, garantimos que 'Challenge Rating' esteja após 'Subtype'
+            const keys = Object.keys(monster); // Pega todas as chaves
+
+            // Remove o 'Challenge Rating' da lista de chaves para inseri-lo depois do 'Subtype'
+            const crIndex = keys.indexOf("Challenge Rating");
+            if (crIndex > -1) {
+                keys.splice(crIndex, 1); // Remove 'Challenge Rating' da lista
+            }
+
+            // Adiciona 'Challenge Rating' logo após 'Subtype'
+            const subtypeIndex = keys.indexOf("Subtype");
+            if (subtypeIndex > -1) {
+                keys.splice(subtypeIndex + 1, 0, "Challenge Rating"); // Insere 'Challenge Rating' após 'Subtype'
+            }
+
+            // Agora, vamos iterar sobre as chaves na nova ordem
+            keys.forEach(key => {
+                const row = document.createElement("tr");
+                const cellKey = document.createElement("th");
+                cellKey.textContent = key;
+                cellKey.style.width = "30%"; // Define largura consistente
+                const cellValue = document.createElement("td");
+                cellValue.textContent = monster[key] || "N/A";
+                cellValue.style.width = "70%"; // Define largura consistente
+                row.appendChild(cellKey);
+                row.appendChild(cellValue);
+                table.appendChild(row);
             });
+
+            // Agora adiciona o 'Challenge Rating' no final da tabela
+            if (monster["Challenge Rating"]) {
+                const row = document.createElement("tr");
+                const cellKey = document.createElement("th");
+                cellKey.textContent = "Challenge Rating";
+                cellKey.style.width = "30%"; // Define largura consistente
+                const cellValue = document.createElement("td");
+                cellValue.textContent = monster["Challenge Rating"] || "N/A";
+                cellValue.style.width = "70%"; // Define largura consistente
+                row.appendChild(cellKey);
+                row.appendChild(cellValue);
+                table.appendChild(row);
+            }
 
             resultsContainer.appendChild(table);
         });
@@ -103,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
         resultsContainer.textContent = "No results found.";
     }
 }
-
 
     function clearFilters() {
         document.getElementById("search-name").value = "";
