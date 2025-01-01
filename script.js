@@ -16,8 +16,39 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
                 populateFilters();
+                displayResults(monstersData); // Exibe todos os monstros inicialmente
             }
         });
+    }
+
+    // Função para popular os filtros
+    function populateFilters() {
+        const typeSet = new Set();
+        const crSet = new Set();
+
+        monstersData.forEach(monster => {
+            if (monster.Type) typeSet.add(monster.Type.trim());
+            if (monster["Challenge Rating"]) crSet.add(monster["Challenge Rating"]);
+        });
+
+        const typeFilter = document.getElementById("filter-type");
+        const crFilter = document.getElementById("filter-cr");
+
+        if (typeFilter && crFilter) {
+            [...typeSet].sort((a, b) => a.localeCompare(b)).forEach(type => {
+                const option = document.createElement("option");
+                option.value = type;
+                option.textContent = type;
+                typeFilter.appendChild(option);
+            });
+
+            [...crSet].sort((a, b) => a.localeCompare(b)).forEach(cr => {
+                const option = document.createElement("option");
+                option.value = cr;
+                option.textContent = cr;
+                crFilter.appendChild(option);
+            });
+        }
     }
 
     // Função para filtrar monstros
@@ -81,13 +112,22 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "flex";
         modalName.textContent = monster.Name;
 
-        // Exibir todos os detalhes do monstro no modal
+        // Exibir todos os detalhes do monstro no modal como uma tabela
         modalDetails.innerHTML = ""; // Limpa detalhes antigos
+        const table = document.createElement("table");
+
         Object.entries(monster).forEach(([key, value]) => {
-            const detailRow = document.createElement("p");
-            detailRow.textContent = `${key}: ${value || "N/A"}`;
-            modalDetails.appendChild(detailRow);
+            const row = document.createElement("tr");
+            const cellKey = document.createElement("th");
+            cellKey.textContent = key;
+            const cellValue = document.createElement("td");
+            cellValue.textContent = value || "N/A";
+            row.appendChild(cellKey);
+            row.appendChild(cellValue);
+            table.appendChild(row);
         });
+
+        modalDetails.appendChild(table);
     }
 
     // Função para fechar o modal
