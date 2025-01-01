@@ -109,6 +109,17 @@ h1 {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
 }
 
+.modal-content table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.modal-content th, .modal-content td {
+    padding: 10px;
+    border: 1px solid #555;
+    text-align: left;
+}
+
 .close-button {
     color: #f0f0f0;
     font-size: 30px;
@@ -120,4 +131,14 @@ h1 {
 
 .close-button:hover {
     color: #ff6f61;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+    }
+
+    .monster-card {
+        width: 100%;
+    }
 }
