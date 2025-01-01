@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const csvFilePath = "monster_data.csv"; // Nome do arquivo
+    const csvFilePath = "monster_database.csv"; // Nome do arquivo
     let monstersData = [];
 
     function loadCSV() {
