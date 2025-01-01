@@ -117,14 +117,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const table = document.createElement("table");
 
         Object.entries(monster).forEach(([key, value]) => {
-            const row = document.createElement("tr");
-            const cellKey = document.createElement("th");
-            cellKey.textContent = key;
-            const cellValue = document.createElement("td");
-            cellValue.textContent = value || "N/A";
-            row.appendChild(cellKey);
-            row.appendChild(cellValue);
-            table.appendChild(row);
+            // Não inclui o "Stat_Block" no modal
+            if (key !== "Stat_Block") {
+                const row = document.createElement("tr");
+                const cellKey = document.createElement("th");
+                cellKey.textContent = key;
+                const cellValue = document.createElement("td");
+                cellValue.textContent = value || "N/A";
+                row.appendChild(cellKey);
+                row.appendChild(cellValue);
+                table.appendChild(row);
+            }
         });
 
         modalDetails.appendChild(table);
