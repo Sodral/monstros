@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Papa.parse(csvFilePath, {
             download: true,
             header: true,
+            skipEmptyLines: true, // Ignora linhas completamente vazias
             complete: function (results) {
-                // Ignore the last two rows if they are blank
+                // Remove colunas e linhas completamente em branco
                 monstersData = results.data.filter(row => row.Name && row.Name.trim() !== "");
                 populateFilters();
             }
@@ -20,8 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const crSet = new Set();
 
         monstersData.forEach(monster => {
-            if (monster.Type) typeSet.add(monster.Type);
-            if (monster.ChallengeRating) crSet.add(monster.ChallengeRating);
+            if (monster.Type) typeSet.add(monster.Type.trim());
+            if (monster["Challenge Rating"]) crSet.add(monster["Challenge Rating"].trim());
         });
 
         const typeFilter = document.getElementById("filter-type");
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return (
                 (!name || monster.Name.toLowerCase().includes(name)) &&
                 (!type || monster.Type === type) &&
-                (!cr || monster.ChallengeRating === cr)
+                (!cr || monster["Challenge Rating"] === cr)
             );
         });
 
