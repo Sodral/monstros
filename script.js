@@ -2,13 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const csvFilePath = "monster_database.csv"; // Nome do arquivo
     let monstersData = [];
 
+    // Função para carregar o CSV
     function loadCSV() {
         Papa.parse(csvFilePath, {
             download: true,
             header: true,
-            skipEmptyLines: true, // Ignora linhas completamente vazias
+            skipEmptyLines: true,
             complete: function (results) {
-                // Remove linhas com valores inconsistentes e limpa espaços extras
                 monstersData = results.data.filter(row => row.Name && row.Name.trim() !== "");
                 monstersData.forEach(monster => {
                     if (monster["Challenge Rating"]) {
@@ -20,35 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function populateFilters() {
-        const typeSet = new Set();
-        const crSet = new Set();
-
-        monstersData.forEach(monster => {
-            if (monster.Type) typeSet.add(monster.Type.trim());
-            if (monster["Challenge Rating"]) crSet.add(monster["Challenge Rating"]);
-        });
-
-        const typeFilter = document.getElementById("filter-type");
-        const crFilter = document.getElementById("filter-cr");
-
-        if (typeFilter && crFilter) {
-            [...typeSet].sort((a, b) => a.localeCompare(b)).forEach(type => {
-                const option = document.createElement("option");
-                option.value = type;
-                option.textContent = type;
-                typeFilter.appendChild(option);
-            });
-
-            [...crSet].sort((a, b) => a.localeCompare(b)).forEach(cr => {
-                const option = document.createElement("option");
-                option.value = cr;
-                option.textContent = cr;
-                crFilter.appendChild(option);
-            });
-        }
-    }
-
+    // Função para filtrar monstros
     function filterMonsters() {
         const name = document.getElementById("search-name").value.toLowerCase();
         const type = document.getElementById("filter-type").value;
@@ -65,50 +37,69 @@ document.addEventListener("DOMContentLoaded", () => {
         displayResults(filtered);
     }
 
-        function displayResults(monsters) {
-    const resultsContainer = document.getElementById("results-container");
-    if (!resultsContainer) {
-        console.error("Results container not found.");
-        return;
-    }
+    // Função para exibir resultados como cards
+    function displayResults(monsters) {
+        const resultsContainer = document.getElementById("results-container");
+        if (!resultsContainer) {
+            console.error("Results container not found.");
+            return;
+        }
 
-    resultsContainer.innerHTML = "";
+        resultsContainer.innerHTML = "";
 
-    if (monsters.length > 0) {
-        monsters.forEach(monster => {
-            const table = document.createElement("table");
-            table.className = "monster-table";
+        if (monsters.length > 0) {
+            monsters.forEach(monster => {
+                const card = document.createElement("div");
+                card.className = "monster-card";
+                card.addEventListener("click", () => openModal(monster)); // Ao clicar, abre o modal
 
-            // Criando um novo array de chaves
-            let keys = Object.keys(monster); 
+                const name = document.createElement("h3");
+                name.textContent = monster.Name;
 
-            // Checa se "Subtype" existe e insere o "Challenge Rating" logo depois
-            const subtypeIndex = keys.indexOf("Subtype");
-            if (subtypeIndex !== -1 && keys.indexOf("Challenge Rating") === -1) {
-                keys.splice(subtypeIndex + 1, 0, "Challenge Rating"); // Inserir "Challenge Rating" logo após "Subtype"
-            }
+                const hitDice = document.createElement("p");
+                hitDice.textContent = `Hit Dice: ${monster["Hit Dice"] || "N/A"}`;
 
-            // Agora, vamos exibir as chaves na ordem correta
-            keys.forEach(key => {
-                const row = document.createElement("tr");
-                const cellKey = document.createElement("th");
-                cellKey.textContent = key;
-                cellKey.style.width = "30%"; // Define largura consistente
-                const cellValue = document.createElement("td");
-                cellValue.textContent = monster[key] || "N/A";
-                cellValue.style.width = "70%"; // Define largura consistente
-                row.appendChild(cellKey);
-                row.appendChild(cellValue);
-                table.appendChild(row);
+                const cr = document.createElement("p");
+                cr.textContent = `Challenge Rating: ${monster["Challenge Rating"] || "N/A"}`;
+
+                card.appendChild(name);
+                card.appendChild(hitDice);
+                card.appendChild(cr);
+                resultsContainer.appendChild(card);
             });
-
-            resultsContainer.appendChild(table);
-        });
-    } else {
-        resultsContainer.textContent = "No results found.";
+        } else {
+            resultsContainer.textContent = "No results found.";
+        }
     }
-}
 
+    // Função para abrir o modal
+    function openModal(monster) {
+        const modal = document.getElementById("monster-modal");
+        const modalName = document.getElementById("modal-monster-name");
+        const modalDetails = document.getElementById("modal-monster-details");
+
+        modal.style.display = "flex";
+        modalName.textContent = monster.Name;
+
+        // Exibir todos os detalhes do monstro no modal
+        modalDetails.innerHTML = ""; // Limpa detalhes antigos
+        Object.entries(monster).forEach(([key, value]) => {
+            const detailRow = document.createElement("p");
+            detailRow.textContent = `${key}: ${value || "N/A"}`;
+            modalDetails.appendChild(detailRow);
+        });
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        const modal = document.getElementById("monster-modal");
+        modal.style.display = "none";
+    }
+
+    // Evento para fechar o modal
+    document.querySelector(".close-button").addEventListener("click", closeModal);
+
+    // Função de limpar filtros
     function clearFilters() {
         document.getElementById("search-name").value = "";
         document.getElementById("filter-type").value = "";
@@ -119,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Eventos de busca
     document.getElementById("search-button").addEventListener("click", filterMonsters);
     document.getElementById("clear-button").addEventListener("click", clearFilters);
 
