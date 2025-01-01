@@ -112,6 +112,7 @@ h1 {
 .modal-content table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 .modal-content th, .modal-content td {
@@ -135,7 +136,8 @@ h1 {
 
 @media (max-width: 768px) {
     .modal-content {
-        width: 95%;
+        width: 90%;
+        padding: 10px;
     }
 
     .monster-card {
