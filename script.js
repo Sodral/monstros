@@ -1,6 +1,4 @@
-// Carrega o CSV
-const csvFilePath = "https://sodral.github.io/monstros/monsters_data.csv"; // Substitua pelo nome correto do arquivo CSV.
-
+const csvFilePath = "https://raw.githubusercontent.com/Sodral/monstros/main/monsters_data.csv";
 let monstersData = [];
 
 function loadCSV() {
@@ -8,7 +6,7 @@ function loadCSV() {
         download: true,
         header: true,
         complete: function (results) {
-            monstersData = results.data;
+            monstersData = results.data.slice(0, -2); // Ignora as duas últimas linhas
             populateFilters();
         }
     });
@@ -19,8 +17,8 @@ function populateFilters() {
     const crSet = new Set();
 
     monstersData.forEach(monster => {
-        typeSet.add(monster.Type);
-        crSet.add(monster.ChallengeRating);
+        if (monster.Type) typeSet.add(monster.Type);
+        if (monster.ChallengeRating) crSet.add(monster.ChallengeRating);
     });
 
     const typeFilter = document.getElementById("filter-type");
@@ -58,37 +56,29 @@ function filterMonsters() {
 }
 
 function displayResults(monsters) {
-    const tableHeader = document.getElementById("table-header");
-    const tableBody = document.getElementById("table-body");
-
-    tableHeader.innerHTML = "";
-    tableBody.innerHTML = "";
+    const resultsContainer = document.getElementById("results-container");
+    resultsContainer.innerHTML = "";
 
     if (monsters.length > 0) {
-        // Criar cabeçalhos
-        Object.keys(monsters[0]).forEach(key => {
-            const th = document.createElement("th");
-            th.textContent = key;
-            tableHeader.appendChild(th);
-        });
-
-        // Criar linhas
         monsters.forEach(monster => {
-            const row = document.createElement("tr");
-            Object.values(monster).forEach(value => {
-                const td = document.createElement("td");
-                td.textContent = value;
-                row.appendChild(td);
+            const table = document.createElement("table");
+            table.className = "monster-table";
+
+            Object.entries(monster).forEach(([key, value]) => {
+                const row = document.createElement("tr");
+                const cellKey = document.createElement("th");
+                cellKey.textContent = key;
+                const cellValue = document.createElement("td");
+                cellValue.textContent = value || "N/A";
+                row.appendChild(cellKey);
+                row.appendChild(cellValue);
+                table.appendChild(row);
             });
-            tableBody.appendChild(row);
+
+            resultsContainer.appendChild(table);
         });
     } else {
-        const noDataRow = document.createElement("tr");
-        const noDataCell = document.createElement("td");
-        noDataCell.colSpan = Object.keys(monstersData[0] || {}).length;
-        noDataCell.textContent = "No results found.";
-        noDataRow.appendChild(noDataCell);
-        tableBody.appendChild(noDataRow);
+        resultsContainer.textContent = "No results found.";
     }
 }
 
