@@ -1,3 +1,4 @@
+// Monster Database Code
 const csvFilePath = "https://raw.githubusercontent.com/Sodral/monstros/main/monsters_data.csv";
 let monstersData = [];
 
@@ -6,7 +7,8 @@ function loadCSV() {
         download: true,
         header: true,
         complete: function (results) {
-            monstersData = results.data.slice(0, -2); // Ignora as duas últimas linhas
+            // Ignore the last two rows if they are blank
+            monstersData = results.data.filter(row => row.Name && row.Name.trim() !== "");
             populateFilters();
         }
     });
@@ -24,19 +26,21 @@ function populateFilters() {
     const typeFilter = document.getElementById("filter-type");
     const crFilter = document.getElementById("filter-cr");
 
-    [...typeSet].sort().forEach(type => {
-        const option = document.createElement("option");
-        option.value = type;
-        option.textContent = type;
-        typeFilter.appendChild(option);
-    });
+    if (typeFilter && crFilter) {
+        [...typeSet].sort().forEach(type => {
+            const option = document.createElement("option");
+            option.value = type;
+            option.textContent = type;
+            typeFilter.appendChild(option);
+        });
 
-    [...crSet].sort().forEach(cr => {
-        const option = document.createElement("option");
-        option.value = cr;
-        option.textContent = cr;
-        crFilter.appendChild(option);
-    });
+        [...crSet].sort().forEach(cr => {
+            const option = document.createElement("option");
+            option.value = cr;
+            option.textContent = cr;
+            crFilter.appendChild(option);
+        });
+    }
 }
 
 function filterMonsters() {
@@ -57,6 +61,11 @@ function filterMonsters() {
 
 function displayResults(monsters) {
     const resultsContainer = document.getElementById("results-container");
+    if (!resultsContainer) {
+        console.error("Results container not found.");
+        return;
+    }
+
     resultsContainer.innerHTML = "";
 
     if (monsters.length > 0) {
@@ -82,6 +91,6 @@ function displayResults(monsters) {
     }
 }
 
-document.getElementById("search-button").addEventListener("click", filterMonsters);
+document.getElementById("search-button")?.addEventListener("click", filterMonsters);
 
 loadCSV();
