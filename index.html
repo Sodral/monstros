@@ -4,26 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monster Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Monster Database</h1>
-    <div id="search-container">
-        <input type="text" id="search-name" placeholder="Search by Name">
-        <select id="filter-type">
-            <option value="">All Types</option>
-        </select>
-        <select id="filter-cr">
-            <option value="">All Challenge Ratings</option>
-        </select>
-        <button id="search-button">Search</button>
+    <div class="container">
+        <h1>Monster Database</h1>
+        <div id="search-container">
+            <input type="text" id="search-name" placeholder="Search by Name">
+            <select id="filter-type">
+                <option value="">All Types</option>
+            </select>
+            <select id="filter-cr">
+                <option value="">All Challenge Ratings</option>
+            </select>
+            <button id="search-button">Search</button>
+        </div>
+        <div id="results-container"></div>
     </div>
-    <table id="results-table">
-        <thead>
-            <tr id="table-header"></tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-    </table>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="script.js"></script>
 </body>
