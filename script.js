@@ -2,66 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const csvFilePath = "monster_database.csv"; // Nome do arquivo
     let monstersData = [];
 
-    // Dicionário de traduções para inglês e português
-    const translations = {
-        en: {
-            title: "Monster Database",
-            searchPlaceholder: "Search by Name",
-            allTypes: "All Types",
-            allChallengeRatings: "All Challenge Ratings",
-            searchButton: "Search",
-            clearButton: "Clear",
-            noResultsFound: "No results found.",
-            hitDice: "Hit Dice",
-            challengeRating: "Challenge Rating",
-        },
-        ptbr: {
-            title: "Base de Dados de Monstros",
-            searchPlaceholder: "Buscar por Nome",
-            allTypes: "Todos os Tipos",
-            allChallengeRatings: "Todas as Classificações de Desafio",
-            searchButton: "Buscar",
-            clearButton: "Limpar",
-            noResultsFound: "Nenhum resultado encontrado.",
-            hitDice: "Dados de Vida",
-            challengeRating: "Classificação de Desafio",
-        }
-    };
-
-    let currentLanguage = 'en'; // Idioma padrão
-
-    // Função para alterar o idioma
-    function setLanguage(language) {
-        currentLanguage = language;
-        const selectedLang = translations[language];
-
-        // Alterar o texto dos elementos
-        document.getElementById('title').textContent = selectedLang.title;
-        document.getElementById('search-name').placeholder = selectedLang.searchPlaceholder;
-        document.getElementById('filter-type').querySelector('option').textContent = selectedLang.allTypes;
-        document.getElementById('filter-cr').querySelector('option').textContent = selectedLang.allChallengeRatings;
-        document.getElementById('search-button').textContent = selectedLang.searchButton;
-        document.getElementById('clear-button').textContent = selectedLang.clearButton;
-
-        // Alterar o conteúdo da tabela se houver
-        const rows = document.querySelectorAll('.monster-table th, .monster-table td');
-        rows.forEach(row => {
-            const content = row.textContent;
-            if (content === translations.en.hitDice) {
-                row.textContent = selectedLang.hitDice;
-            }
-            if (content === translations.en.challengeRating) {
-                row.textContent = selectedLang.challengeRating;
-            }
-        });
-
-        // Traduzir resultados de "Nenhum resultado encontrado"
-        const resultsContainer = document.getElementById('results-container');
-        if (resultsContainer && resultsContainer.textContent === translations.en.noResultsFound) {
-            resultsContainer.textContent = selectedLang.noResultsFound;
-        }
-    }
-
     // Função para carregar o CSV
     function loadCSV() {
         Papa.parse(csvFilePath, {
@@ -163,10 +103,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 name.textContent = monster.Name;
 
                 const hitDice = document.createElement("p");
-                hitDice.textContent = `${translations[currentLanguage].hitDice}: ${monster["Hit Dice"] || "N/A"}`;
+                hitDice.textContent = `Hit Dice: ${monster["Hit Dice"] || "N/A"}`;
 
                 const cr = document.createElement("p");
-                cr.textContent = `${translations[currentLanguage].challengeRating}: ${monster["Challenge Rating"] || "N/A"}`;
+                cr.textContent = `Challenge Rating: ${monster["Challenge Rating"] || "N/A"}`;
 
                 card.appendChild(name);
                 card.appendChild(hitDice);
@@ -174,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 resultsContainer.appendChild(card);
             });
         } else {
-            resultsContainer.textContent = translations[currentLanguage].noResultsFound;
+            resultsContainer.textContent = "No results found.";
         }
     }
 
@@ -246,12 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Eventos de busca
     document.getElementById("search-button").addEventListener("click", filterMonsters);
     document.getElementById("clear-button").addEventListener("click", clearFilters);
-
-    // Evento para o menu dropdown
-    document.querySelector('.dropbtn').addEventListener('click', function() {
-        const currentLang = currentLanguage === 'en' ? 'ptbr' : 'en';
-        setLanguage(currentLang);
-    });
 
     loadCSV();
 });
