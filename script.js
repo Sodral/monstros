@@ -20,7 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    
+
+    // Função para converter frações em números decimais
+    function convertFractionToDecimal(cr) {
+        const parts = cr.split('/');
+        if (parts.length === 2) {
+            return parseFloat(parts[0]) / parseFloat(parts[1]);
+        }
+        return parseFloat(cr);
+    }
+
     // Função para popular os filtros
     function populateFilters() {
         const typeSet = new Set();
@@ -33,15 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const typeFilter = document.getElementById("filter-type");
         const crFilter = document.getElementById("filter-cr");
-        
-        // Função para converter frações em números decimais
-    function convertFractionToDecimal(cr) {
-        const parts = cr.split('/');
-        if (parts.length === 2) {
-            return parseFloat(parts[0]) / parseFloat(parts[1]);
-        }
-        return parseFloat(cr);
-    }
 
         if (typeFilter && crFilter) {
             // Organiza o tipo
@@ -52,10 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 typeFilter.appendChild(option);
             });
 
-            // Organiza o Challenge Rating
-             [...crSet].sort((a, b) => {
-                const numA = parseFloat(a); // Converte para número
-                const numB = parseFloat(b); // Converte para número
+            // Organiza o Challenge Rating como números (na hora de ordenar os valores no filtro)
+            [...crSet].sort((a, b) => {
+                const numA = convertFractionToDecimal(a); // Converte para número
+                const numB = convertFractionToDecimal(b); // Converte para número
                 return numA - numB; // Ordena numericamente
             }).forEach(cr => {
                 const option = document.createElement("option");
