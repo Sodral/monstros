@@ -9,7 +9,15 @@
 </head>
 <body>
     <div class="container">
-        <h1>Monsters 3E</h1>
+        <div id="lang-selector" class="dropdown">
+            <button class="dropbtn">EN</button>
+            <div class="dropdown-content">
+                <a href="#" onclick="setLanguage('en')">English (EN)</a>
+                <a href="#" onclick="setLanguage('ptbr')">Português (PTBR)</a>
+            </div>
+        </div>
+
+        <h1 id="title">Monster Database</h1>
         <div id="search-container">
             <input type="text" id="search-name" placeholder="Search by Name">
             <select id="filter-type">
@@ -24,16 +32,6 @@
         <div id="results-container"></div>
     </div>
 
-    <!-- Modal -->
-    <div id="monster-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2 id="modal-monster-name"></h2>
-            <div id="modal-monster-details"></div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
