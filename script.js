@@ -20,7 +20,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
+    
+// Função para converter frações em números decimais
+    function convertFractionToDecimal(cr) {
+        const parts = cr.split('/');
+        if (parts.length === 2) {
+            return parseFloat(parts[0]) / parseFloat(parts[1]);
+        }
+        return parseFloat(cr);
+    }
     // Função para popular os filtros
     function populateFilters() {
         const typeSet = new Set();
