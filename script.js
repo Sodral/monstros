@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
             searchButton: "Search",
             clearButton: "Clear",
             noResultsFound: "No results found.",
+            hitDice: "Hit Dice",
+            challengeRating: "Challenge Rating",
         },
         ptbr: {
             title: "Base de Dados de Monstros",
@@ -21,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
             searchButton: "Buscar",
             clearButton: "Limpar",
             noResultsFound: "Nenhum resultado encontrado.",
+            hitDice: "Dados de Vida",
+            challengeRating: "Classificação de Desafio",
         }
     };
 
@@ -43,8 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const rows = document.querySelectorAll('.monster-table th, .monster-table td');
         rows.forEach(row => {
             const content = row.textContent;
-            if (content in selectedLang) {
-                row.textContent = selectedLang[content];
+            if (content === translations.en.hitDice) {
+                row.textContent = selectedLang.hitDice;
+            }
+            if (content === translations.en.challengeRating) {
+                row.textContent = selectedLang.challengeRating;
             }
         });
 
@@ -156,10 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 name.textContent = monster.Name;
 
                 const hitDice = document.createElement("p");
-                hitDice.textContent = `Hit Dice: ${monster["Hit Dice"] || "N/A"}`;
+                hitDice.textContent = `${translations[currentLanguage].hitDice}: ${monster["Hit Dice"] || "N/A"}`;
 
                 const cr = document.createElement("p");
-                cr.textContent = `Challenge Rating: ${monster["Challenge Rating"] || "N/A"}`;
+                cr.textContent = `${translations[currentLanguage].challengeRating}: ${monster["Challenge Rating"] || "N/A"}`;
 
                 card.appendChild(name);
                 card.appendChild(hitDice);
