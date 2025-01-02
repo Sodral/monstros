@@ -44,7 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             // Organiza o Challenge Rating
-            [...crSet].sort((a, b) => a.localeCompare(b)).forEach(cr => {
+             [...crSet].sort((a, b) => {
+                const numA = parseFloat(a); // Converte para número
+                const numB = parseFloat(b); // Converte para número
+                return numA - numB; // Ordena numericamente
+            }).forEach(cr => {
                 const option = document.createElement("option");
                 option.value = cr;
                 option.textContent = cr;
