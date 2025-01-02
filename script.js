@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const crFilter = document.getElementById("filter-cr");
 
         if (typeFilter && crFilter) {
+            // Organiza o tipo
             [...typeSet].sort((a, b) => a.localeCompare(b)).forEach(type => {
                 const option = document.createElement("option");
                 option.value = type;
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 typeFilter.appendChild(option);
             });
 
+            // Organiza o Challenge Rating
             [...crSet].sort((a, b) => a.localeCompare(b)).forEach(cr => {
                 const option = document.createElement("option");
                 option.value = cr;
