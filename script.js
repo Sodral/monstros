@@ -127,6 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = "flex";
         modalName.textContent = monster.Name;
 
+        // Bloqueia o scroll da página
+        document.body.classList.add("no-scroll");
+
         // Exibir todos os detalhes do monstro no modal como uma tabela
         modalDetails.innerHTML = ""; // Limpa detalhes antigos
         const table = document.createElement("table");
@@ -152,6 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function closeModal() {
         const modal = document.getElementById("monster-modal");
         modal.style.display = "none";
+
+        // Libera o scroll da página
+        document.body.classList.remove("no-scroll");
     }
 
     // Evento para fechar o modal
