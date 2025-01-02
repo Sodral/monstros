@@ -187,5 +187,20 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("search-button").addEventListener("click", filterMonsters);
     document.getElementById("clear-button").addEventListener("click", clearFilters);
 
+    // Adicionar evento para pressionar ENTER e acionar o botão de busca
+    document.getElementById("search-name").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Impede o comportamento padrão de envio de formulário
+            document.getElementById("search-button").click(); // Simula o clique no botão de busca
+        }
+    });
+
+    // Adicionar evento para pressionar ESC e fechar o modal
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            closeModal(); // Fecha o modal se a tecla "Esc" for pressionada
+        }
+    });
+
     loadCSV();
 });
