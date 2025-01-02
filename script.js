@@ -202,5 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Agora a configuração para captura das teclas Enter e Esc é feita no início
     loadCSV();
 });
